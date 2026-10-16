@@ -938,7 +938,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
     seed = log(0.1744*(12/root))
     radius = 1.0
 
-    filename = filenameprefix*string(delta) * "_E" * string(E) * "_m" * string(m) * "_mutmag" * string(mutmag) * "_Nstar" * string(root)
+    filename = "/data/"*filenameprefix*string(delta) * "_E" * string(E) * "_m" * string(m) * "_mutmag" * string(mutmag) * "_Nstar" * string(root)
  
     #we should save data as a dataframe
     masterdf = DataFrame()
@@ -982,7 +982,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
         masterdf = vcat(masterdf, dfrow)
         ssm_avg_data[i] = data 
     end
-    @save "raw_ssm_avg"*filename*".jld2" ssm_avg_data
+    @save filename*"_raw_ssm_avg"*".jld2" ssm_avg_data
     CSV.write(filename*".csv", masterdf)
 
     ssm_min_data = Vector{Any}(undef, length(sizes_ssm_min))
@@ -1024,7 +1024,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
         masterdf = vcat(masterdf, dfrow) 
         ssm_min_data[i] = data
     end
-    @save "raw_ssm_min"*filename*".jld2" ssm_min_data
+    @save filename*"_raw_ssm_min"*".jld2" ssm_min_data
     filename2 = filename*".csv"
     CSV.write(filename2, masterdf)
 
@@ -1068,7 +1068,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
         masterdf = vcat(masterdf, dfrow) 
         ff_var1_data[i] = data
     end
-    @save "raw_ff_var1_"*filename*".jld2" ff_var1_data
+    @save filename*"_raw_ff_var1_"*".jld2" ff_var1_data
     CSV.write(filename2, masterdf)
 
     #ff avg variant 2
@@ -1109,7 +1109,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
         ff_var2_data[i] = data
         masterdf = vcat(masterdf, dfrow)
     end
-    @save "raw_ff_var2_"*filename*".jld2" ff_var2_data
+    @save filename*"_raw_ff_var2_"*".jld2" ff_var2_data
     CSV.write(filename2, masterdf)
 
     #return masterdf
@@ -1149,7 +1149,7 @@ collect_hybrid_data = function(filenameprefix; objreplicates = objreplicates, fi
         delta = "baseline"
     end
 
-    filename = filenameprefix*"HYBRIDS"*string(delta) * "_E" * string(E) * "_m" * string(m) * "_mutmag" * string(mutmag) * "_Nstar" * string(root)
+    filename = "/data/"*filenameprefix*"_HYBRIDS_"*string(delta) * "_E" * string(E) * "_m" * string(m) * "_mutmag" * string(mutmag) * "_Nstar" * string(root)
 
     alldata = Vector{Any}(undef, 16)
     masterdf = DataFrame()
@@ -1186,7 +1186,7 @@ collect_hybrid_data = function(filenameprefix; objreplicates = objreplicates, fi
         masterdf = vcat(masterdf, dfrow)
     end
 
-    @save "raw"*filename*".jld2" alldata
+    @save filename*"_raw"*".jld2" alldata
     CSV.write(filename*".csv", masterdf)
 
 end
