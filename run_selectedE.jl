@@ -23,4 +23,8 @@ objreplicates = 80
 m = 0.01
 deltaO = 0.003
 
-general_bayesoptimize_ntimes_parallel(ffavg_analytic_sim_nodemandgermm, constructffmodmatrix, 1, -1.7, 1.0)
+#NstarplusNinit
+root = 25
+Ninit = root
+test4networks("Nstar25Ninit25", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+
