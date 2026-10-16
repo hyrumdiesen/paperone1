@@ -12,7 +12,7 @@ using BayesianOptimization
 using DataFrames
 using CSV
 
-#add Distributions, CSV, Roots, JLD2, StatsBase, BayesianOptimization, GaussianProcesses, Plots, StatsPlots, DataFrames, StatsBase
+#add Distributions, Roots, JLD2, StatsBase, BayesianOptimization, GaussianProcesses, Plots, StatsPlots, DataFrames, StatsBase
 
 NUM_GENOTYPES = 50
 B = 1
