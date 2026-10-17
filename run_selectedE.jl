@@ -24,16 +24,19 @@ objreplicates = 80
 m = 0.01
 deltaO = 0.003
 
-root = 12
-Ninit = root
-testffavgvar2network("retryNstar25Ninit25", sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+#root = 12
+#Ninit = root
+#testffavgvar2network("retryNstar25Ninit25", sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
 
 
 #NstarplusNinit
 root = 25
 Ninit = root
-test4networks("Nstar25Ninit25", [1,6], [1,26], [1,8], [1,40]; objreplicates = 2, finalrep = 4, optimiterations = 4, optiminitialiterations = 2, testreplicates = 2)
-testffavgvar2network("retryNstar25Ninit25", sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+#test4networks("Nstar25Ninit25", [1,6], [1,26], [1,8], [1,40]; objreplicates = 2, finalrep = 4, optimiterations = 4, optiminitialiterations = 2, testreplicates = 2)
+#testffavgvar2network("retryNstar25Ninit25", sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+
+test4networks("Ninit25_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+
 
 ###############environment 2
 nreplicates = 500
