@@ -24,6 +24,11 @@ objreplicates = 80
 m = 0.01
 deltaO = 0.003
 
+root = 12
+Ninit = 1
+test4networks("Nstar25Ninit25", [1], [1], [4], [10]; objreplicates = objreplicates, finalrep = nreplicates)
+
+
 #NstarplusNinit
 #root = 25
 #Ninit = root
@@ -36,10 +41,6 @@ nreplicates = 250
 objreplicates = 20
 m = 0.00005
 deltaO = 0.0001
-
-root = 25
-Ninit = 25
-test4networks("Nstar25Ninit25", [1,2], [1,2], [1,2], [1,2]; objreplicates = 2, finalrep = 4, optimiterations = 4, optiminitialiterations = 2, testreplicates = 2)
 
 #Ninit12
 #Ninit = 12
