@@ -1029,7 +1029,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
     CSV.write(filename2, masterdf)
 
     seed = log(1116.16*(12/root))
-    # ff avg variant 2
+    # ff avg variant 1
     ff_var1_data = Vector{Any}(undef, length(sizes_ff_avgvar1))
     for i in 1:length(sizes_ff_avgvar1)
 
@@ -1189,4 +1189,90 @@ collect_hybrid_data = function(filenameprefix; objreplicates = objreplicates, fi
     @save filename*"_raw"*".jld2" alldata
     CSV.write(filename*".csv", masterdf)
 
+end
+
+testffavgvar2network = function(filenameprefix, sizes_ff_avgvar2; objreplicates = objreplicates, finalrep = finalrep, testreplicates = 200, optimiterations = 100, optiminitialiterations = 30, ntimes = 2)
+
+    if m == 0.01 || gammam == 0.01
+        E = 1
+    elseif m == 0.003 || gammam == 0.003
+        E = 2
+    elseif m == 0.00005 || gammam == 0.00005
+        E = 3
+    else
+        E = 0
+    end
+
+    delta = ""
+    if gammam > 0
+        delta *= "nodem_adjusted"
+    end
+    if germlinem > 0
+        delta *= "germlinem"
+    end
+    if mutmag == 0.1
+        delta *= "mutmag"
+    end
+    if root == 25
+        delta *= "Nstar"
+    end
+    if Ninit > 1
+        delta *= "Ninit"
+    end
+
+    if delta == ""
+        delta = "baseline"
+    end
+
+    seed = log(0.1744*(12/root))
+    radius = 1.0
+
+    filename = "/data/"*filenameprefix*string(delta) * "_E" * string(E) * "_m" * string(m) * "_mutmag" * string(mutmag) * "_Nstar" * string(root)
+ 
+    #we should save data as a dataframe
+    masterdf = DataFrame()
+
+    seed = log(1116.16*(12/root))
+    #ff avg variant 2
+    ff_var2_data = Vector{Any}(undef, length(sizes_ff_avgvar2))
+    for i in 1:length(sizes_ff_avgvar2)
+
+        nedges = 2*sizes_ff_avgvar2[i]
+        nnodes = 2*sizes_ff_avgvar2[i]
+
+        data = general_bayesoptimize_ntimes_parallel(ffvar2_analytic_sim_nodemandgermm, constructffvar2modmatrix, sizes_ff_avgvar2[i], seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations, ntimes = ntimes)
+
+        #save data as individual file.
+
+        dfrow = DataFrame(
+            network_type = ["ff_avg_var2"],
+            delta = [delta],
+            E = [E],
+            nedges = [nedges],
+            nnodes = [nnodes],
+            Nstar = [root],
+            Ninit = [Ninit],
+            dO = [deltaO],
+            m = [m],
+            mutmag = [mutmag],
+            gammam = [gammam],
+            optr = [data[2][data[3]]],
+            germlinem = [germlinem],
+            objreplicates = [objreplicates],
+            fitnessreplicates = [finalrep],
+            meanlogW = [data[5][1]],
+            meanlogWupper = [data[5][3]],
+            meanlogWlower = [data[5][2]],
+            meanW = [data[6][1]],
+            meanWupper = [data[6][3]],
+            meanWlower = [data[6][2]] 
+        )
+
+        ff_var2_data[i] = data
+        masterdf = vcat(masterdf, dfrow)
+    end
+    @save filename*"_raw_ff_var2_"*".jld2" ff_var2_data
+    CSV.write(filename2, masterdf)
+
+    #return masterdf
 end
