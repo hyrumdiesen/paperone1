@@ -19,14 +19,14 @@ ssmminsizes = [1,2,3,4,5,6,8,10,12,14,16,20,26]
 
 
 ############environment 1
-nreplicates = 1000
-objreplicates = 80
-m = 0.01
-deltaO = 0.003
+#nreplicates = 1000
+#objreplicates = 80
+#m = 0.01
+#deltaO = 0.003
 
-root = 12
-Ninit = 1
-test4networks("Nstar25Ninit25", [1], [1], [4], [10]; objreplicates = objreplicates, finalrep = nreplicates)
+#root = 12
+#Ninit = 1
+#test4networks("Nstar25Ninit25", [1], [1], [4], [10]; objreplicates = objreplicates, finalrep = nreplicates)
 
 
 #NstarplusNinit
@@ -43,10 +43,10 @@ m = 0.00005
 deltaO = 0.0001
 
 #Ninit12
-#Ninit = 12
-#test4networks("Ninit12", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+Ninit = 12
+test4networks("Ninit12", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
 
 #NstarplusNinit
-#root = 25
-#Ninit = root
-#test4networks("Nstar25Ninit25", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+root = 25
+Ninit = root
+test4networks("Nstar25Ninit25", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)

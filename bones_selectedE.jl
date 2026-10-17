@@ -902,7 +902,7 @@ general_bayesoptimize_ntimes_parallel = function(analytic_sim, modmatrixgenerato
 end
 
 #write a function for testing 4 networks 
-test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_avgvar1, sizes_ff_avgvar2; objreplicates = objreplicates, finalrep = finalrep, testreplicates = 200, optimiterations = 100, optiminitialiterations = 30)
+test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_avgvar1, sizes_ff_avgvar2; objreplicates = objreplicates, finalrep = finalrep, testreplicates = 200, optimiterations = 100, optiminitialiterations = 30, ntimes = 2)
 
     if m == 0.01 || gammam == 0.01
         E = 1
@@ -951,7 +951,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
         nedges = 2*(sizes_ssm_avg[i]^2) + sizes_ssm_avg[i]
         nnodes = 2*sizes_ssm_avg[i]
 
-        data = general_bayesoptimize_ntimes_parallel(anyssmnet_analytic_sim_nodemandgermm, constructmodmatrix, hybridvect, seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations)
+        data = general_bayesoptimize_ntimes_parallel(anyssmnet_analytic_sim_nodemandgermm, constructmodmatrix, hybridvect, seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations, ntimes = ntimes)
 
         #save data as individual file.
 
@@ -993,7 +993,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
         nedges = 3*sizes_ssm_min[i]
         nnodes = 2*sizes_ssm_min[i]
 
-        data = general_bayesoptimize_ntimes_parallel(anyssmnet_analytic_sim_nodemandgermm, constructmodmatrix, hybridvect, seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations)
+        data = general_bayesoptimize_ntimes_parallel(anyssmnet_analytic_sim_nodemandgermm, constructmodmatrix, hybridvect, seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations, ntimes = ntimes)
 
         #save data as individual file.
 
@@ -1037,7 +1037,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
         nedges = length(testmodmatrix) - sizes_ff_avgvar1[i]
         nnodes = 2*sizes_ff_avgvar1[i]
 
-        data = general_bayesoptimize_ntimes_parallel(ffavg_analytic_sim_nodemandgermm, constructffmodmatrix, sizes_ff_avgvar1[i], seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations)
+        data = general_bayesoptimize_ntimes_parallel(ffavg_analytic_sim_nodemandgermm, constructffmodmatrix, sizes_ff_avgvar1[i], seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations, ntimes = ntimes)
 
         #save data as individual file.
 
@@ -1078,7 +1078,7 @@ test4networks = function(filenameprefix, sizes_ssm_avg, sizes_ssm_min, sizes_ff_
         nedges = 2*sizes_ff_avgvar2[i]
         nnodes = 2*sizes_ff_avgvar2[i]
 
-        data = general_bayesoptimize_ntimes_parallel(ffavg_analytic_sim_nodemandgermm, constructffmodmatrix, sizes_ff_avgvar2[i], seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations)
+        data = general_bayesoptimize_ntimes_parallel(ffvar2_analytic_sim_nodemandgermm, constructffvar2modmatrix, sizes_ff_avgvar2[i], seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations, ntimes = ntimes)
 
         #save data as individual file.
 
