@@ -1272,6 +1272,7 @@ testffavgvar2network = function(filenameprefix, sizes_ff_avgvar2; objreplicates 
         masterdf = vcat(masterdf, dfrow)
     end
     @save filename*"_raw_ff_var2_"*".jld2" ff_var2_data
+    filename2 = filename*".csv"
     CSV.write(filename2, masterdf)
 
     #return masterdf
