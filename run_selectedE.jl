@@ -42,13 +42,13 @@ m = 0.003
 deltaO = 0.0001
 
 #Ninit12
-Ninit = 12
-testffavgvar2network("retryNinit12", sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+#Ninit = 12
+#testffavgvar2network("retryNinit12", sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
 
 #NstarplusNinit
-root = 25
-Ninit = root
-testffavgvar2network("retryNstar25Ninit25", sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+#root = 25
+#Ninit = root
+#testffavgvar2network("retryNstar25Ninit25", sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
 
 
 
