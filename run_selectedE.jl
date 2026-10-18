@@ -17,6 +17,14 @@ sizesffavgvar2 = [1,2,3,4,5,6,8,10,12,15,20,25,30,40]
 ssmavgsizes = collect(1:6)
 ssmminsizes = [1,2,3,4,5,6,8,10,12,14,16,20,26]
 
+#initialize analytic_sim functions
+
+modmatrix = constructffmodmatrix(1)
+ffavg_analytic_sim_nodemandgermm(modmatrix)
+modmatrix = constructffvar2modmatrix(1)
+ffvar2_analytic_sim_nodemandgermm(modmatrix)
+anyssmnet_analytic_sim_nodemandgermm([1,0,0,0,0,0])
+
 ############environment 1
 nreplicates = 1000
 objreplicates = 80

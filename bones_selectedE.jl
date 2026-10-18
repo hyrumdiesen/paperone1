@@ -28,6 +28,7 @@ mutmag = 1.0
 deltaO = 0.001
 FLOOR = 0.1
 Ninit = 1
+NhitNstartoggle = 0
 
 WofN = function(N)
     exp(-0.5 * ((N - root) / 2)^2)
@@ -67,7 +68,7 @@ end
 
 #parsimonious creatures with simple step motif networks
 
-anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744, m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO = deltaO)
+anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root), m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO1 = deltaO)
 
     nummodules = trunc(Int, sum(hybridvect))
     modmatrix = constructmodmatrix(nummodules, r = r)
@@ -138,7 +139,19 @@ anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744, m = m, g
     exp_dist = Exponential(1.0) # Will adjust rate parameter later
 
     # Main simulation loop
+    highestN = 1
+    deltaO = deltaO1
     while time < MAX_TIME && totalcells > 0
+
+        #little gizmo for supplemental data to check if time to reach Nstar matters
+        if totalcells > highestN && NhitNstartoggle == 1
+            highestN = totalcells
+            if highestN >= root
+                deltaO = deltaO1
+            else
+                deltaO = 0.0
+            end
+        end
         # Calculate division rates
         @inbounds for i in 1:NUM_GENOTYPES
 
@@ -282,7 +295,7 @@ end
 
 #FEEDFORWARD MOTIF NETWORKS IN PARSIMONIOUS CREATURES
 
-#   FEEDFORWARD AVG VAR 1
+#FEEDFORWARD AVG VAR 1
 
 constructffmodmatrix = function(nmodules; r = exp(7.01765), k = exp(18.91928), phi = exp(9.77587))
 
@@ -314,7 +327,7 @@ ffnetworkmodules_nodem = function(N, ffmodmatrix, gammas)
     return EPS/(1+sum(T2s.*ffmodmatrix[end,:]))
 end
 
-ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO = deltaO)
+ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO1 = deltaO)
 
     modmatrix = deepcopy(modmatrix1)
     nummodules = size(modmatrix)[2]
@@ -363,7 +376,18 @@ ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, 
     exp_dist = Exponential(1.0) # Will adjust rate parameter later
 
     # Main simulation loop
+    highestN = 1
+    deltaO = deltaO1
     while time < MAX_TIME && totalcells > 0
+
+        if totalcells > highestN && NhitNstartoggle == 1
+            highestN = totalcells
+            if highestN >= root
+                deltaO = deltaO1
+            else
+                deltaO = 0.0
+            end
+        end
         # Calculate division rates
         @inbounds for i in 1:NUM_GENOTYPES
 
@@ -481,7 +505,7 @@ ffvar2networkmodules_nodem = function(N, modmatrix, gammas)
     return lambda
 end
 
-ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO = deltaO)
+ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO1 = deltaO)
 
     modmatrix = deepcopy(modmatrix1)
     nummodules = size(modmatrix)[1]
@@ -528,7 +552,19 @@ ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam,
     exp_dist = Exponential(1.0) # Will adjust rate parameter later
 
     # Main simulation loop
+    highestN = 1
+    deltaO = deltaO1
     while time < MAX_TIME && totalcells > 0
+
+        if totalcells > highestN && NhitNstartoggle == 1
+            highestN = totalcells
+            if highestN >= root
+                deltaO = deltaO1
+            else
+                deltaO = 0.0
+            end
+        end
+
         # Calculate division rates
         @inbounds for i in 1:NUM_GENOTYPES
 
