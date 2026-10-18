@@ -19,10 +19,10 @@ ssmminsizes = [1,2,3,4,5,6,8,10,12,14,16,20,26]
 
 #initialize analytic_sim functions
 
-modmatrix = constructffmodmatrix(1)
-ffavg_analytic_sim_nodemandgermm(modmatrix)
-modmatrix = constructffvar2modmatrix(1)
-ffvar2_analytic_sim_nodemandgermm(modmatrix)
+test = constructffmodmatrix(1)
+ffavg_analytic_sim_nodemandgermm(test)
+test = constructffvar2modmatrix(1)
+ffvar2_analytic_sim_nodemandgermm(test)
 anyssmnet_analytic_sim_nodemandgermm([1,0,0,0,0,0])
 
 ############environment 1
