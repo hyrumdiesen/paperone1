@@ -24,12 +24,10 @@ m = 0.01
 deltaO = 0.003
 
 root = 12
-germlinem = 0.001
-test4networks("germm0p001_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
-germlinem = 0.01
-test4networks("germm0p01_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
-germlinem = 0.1
-test4networks("germm0p1_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+test4networks("nondeath12_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+
+root = 25
+test4networks("nondeath25_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
 
 ###############environment 2
 nreplicates = 500
@@ -37,12 +35,13 @@ objreplicates = 40
 m = 0.003
 deltaO = 0.0001
 
-germlinem = 0.001
-test4networks("germm0p001_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
-germlinem = 0.01
-test4networks("germm0p01_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
-germlinem = 0.1
-test4networks("germm0p1_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+root = 12
+test4networks("nondeath12_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+
+root = 25
+test4networks("nondeath25_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+
+
 
 ############environment 3
 nreplicates = 250
@@ -50,9 +49,8 @@ objreplicates = 20
 m = 0.00005
 deltaO = 0.0001
 
-germlinem = 0.001
-test4networks("germm0p001_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
-germlinem = 0.01
-test4networks("germm0p01_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
-germlinem = 0.1
-test4networks("germm0p1_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+root = 12
+test4networks("nondeath12_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+
+root = 25
+test4networks("nondeath25_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
