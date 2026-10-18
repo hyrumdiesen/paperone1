@@ -25,6 +25,8 @@ test = constructffvar2modmatrix(1)
 ffvar2_analytic_sim_nodemandgermm(test)
 anyssmnet_analytic_sim_nodemandgermm([1,0,0,0,0,0])
 
+NhitNstartoggle = 1
+
 ############environment 1
 nreplicates = 1000
 objreplicates = 80
