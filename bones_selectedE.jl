@@ -847,11 +847,8 @@ general_bayesoptimize_ntimes_parallel = function(analytic_sim, modmatrixgenerato
 
         #lb, ub = seed .- radius, seed .+ radius   # clamp to global feasible bounds if needed
 
-        #reps = [objective(seed) for _ in 1:15]
-        reps = zeros(15)
-        Threads.@threads for i in 1:15
-            reps[i] = objective([seed])
-        end
+        reps = [objective(seed) for _ in 1:15]
+
         nstd = std(reps) 
         if nstd < 1e-2
             nstd = 1e-2
@@ -859,8 +856,8 @@ general_bayesoptimize_ntimes_parallel = function(analytic_sim, modmatrixgenerato
 
         boxw = ub .- lb
         l0   = log.(boxw ./ 4)                                   # start ~quarter of the box
-        kb   = [vcat(log.(boxw ./ 50), -3),                      # ℓ not absurdly small
-                vcat(log.(boxw .* 2 ), 3)]  
+        kb   = [vcat(log.(boxw ./ 20), -2),                      # ℓ not absurdly small
+                vcat(log.(boxw ./ 1.5 ), 2)]  
 
         model    = ElasticGPE(nparams; mean=MeanConst(0.0), kernel=SEArd(l0, 0.0),
                         logNoise=log(nstd), capacity=500)
