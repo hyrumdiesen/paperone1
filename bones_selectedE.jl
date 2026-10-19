@@ -866,7 +866,8 @@ general_bayesoptimize_ntimes_parallel = function(analytic_sim, modmatrixgenerato
                         logNoise=log(nstd), capacity=500)
 
         hyperopt = MAPGPOptimizer(every=5,
-        noisebounds = [log(nstd) - 0.5, log(nstd) + 2],   # floor genuinely above zero
+        #noisebounds = [log(nstd) - 0.5, log(nstd) + 2],   # floor genuinely above zero
+        noisebounds = [log(max(nstd, 1e-2)), log(max(nstd, 1e-2)) + 3]
         kernbounds  = kb, maxeval = 50)
 
         opt = BOpt(objective, model, ExpectedImprovement(), hyperopt, lb, ub;
