@@ -142,7 +142,7 @@ anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root)
     highestN = 1
     dO = deltaO1
     if NhitNstartoggle == 1
-        dO = 0.0
+        dO = 0.000000001
     end
     while time < MAX_TIME && totalcells > 0
         #little gizmo for supplemental data to check if time to reach Nstar matters
@@ -379,7 +379,7 @@ ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, 
     highestN = 1
     dO = deltaO1
     if NhitNstartoggle == 1
-        dO = 0.0
+        dO = 0.000000001
     end
     while time < MAX_TIME && totalcells > 0
         #little gizmo for supplemental data to check if time to reach Nstar matters
@@ -556,7 +556,7 @@ ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam,
     highestN = 1
     dO = deltaO1
     if NhitNstartoggle == 1
-        dO = 0.0
+        dO = 0.000000001
     end
     while time < MAX_TIME && totalcells > 0
         #little gizmo for supplemental data to check if time to reach Nstar matters
