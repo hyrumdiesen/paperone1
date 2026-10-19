@@ -140,16 +140,16 @@ anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root)
 
     # Main simulation loop
     highestN = 1
-    deltaO = deltaO1
+    dO = deltaO1
     if NhitNstartoggle == 1
-        deltaO = 0.0
+        dO = 0.0
     end
     while time < MAX_TIME && totalcells > 0
         #little gizmo for supplemental data to check if time to reach Nstar matters
         if totalcells > highestN && NhitNstartoggle == 1
             highestN = totalcells
             if highestN >= root
-                deltaO = deltaO1
+                dO = deltaO1
             end
         end
         # Calculate division rates
@@ -170,7 +170,7 @@ anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root)
         mutation_rate = effectivem * totalcells
         gamma_mutation_rate = effectivegammam*totalcells
 
-        total_rate = division_rate + celldeath_rate + deltaO + mutation_rate + gamma_mutation_rate
+        total_rate = division_rate + celldeath_rate + dO + mutation_rate + gamma_mutation_rate
 
         # Early termination check
         total_rate <= 0 && break
@@ -186,9 +186,9 @@ anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root)
             1
         elseif r < division_rate + celldeath_rate
             2
-        elseif r < division_rate + celldeath_rate + deltaO
+        elseif r < division_rate + celldeath_rate + dO
             3
-        elseif r < division_rate + celldeath_rate + deltaO + mutation_rate
+        elseif r < division_rate + celldeath_rate + dO + mutation_rate
             4
         else
             5
@@ -377,16 +377,16 @@ ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, 
 
     # Main simulation loop
     highestN = 1
-    deltaO = deltaO1
+    dO = deltaO1
     if NhitNstartoggle == 1
-        deltaO = 0.0
+        dO = 0.0
     end
     while time < MAX_TIME && totalcells > 0
         #little gizmo for supplemental data to check if time to reach Nstar matters
         if totalcells > highestN && NhitNstartoggle == 1
             highestN = totalcells
             if highestN >= root
-                deltaO = deltaO1
+                dO = deltaO1
             end
         end
         # Calculate division rates
@@ -407,7 +407,7 @@ ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, 
         mutation_rate = effectivem * totalcells
         gamma_mutation_rate = effectivegammam*totalcells
 
-        total_rate = division_rate + celldeath_rate + deltaO + mutation_rate + gamma_mutation_rate
+        total_rate = division_rate + celldeath_rate + dO + mutation_rate + gamma_mutation_rate
 
         # Early termination check
         total_rate <= 0 && break
@@ -423,9 +423,9 @@ ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, 
             1
         elseif r < division_rate + celldeath_rate
             2
-        elseif r < division_rate + celldeath_rate + deltaO
+        elseif r < division_rate + celldeath_rate + dO
             3
-        elseif r < division_rate + celldeath_rate + deltaO + mutation_rate
+        elseif r < division_rate + celldeath_rate + dO + mutation_rate
             4
         else
             5
@@ -554,16 +554,16 @@ ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam,
 
     # Main simulation loop
     highestN = 1
-    deltaO = deltaO1
+    dO = deltaO1
     if NhitNstartoggle == 1
-        deltaO = 0.0
+        dO = 0.0
     end
     while time < MAX_TIME && totalcells > 0
         #little gizmo for supplemental data to check if time to reach Nstar matters
         if totalcells > highestN && NhitNstartoggle == 1
             highestN = totalcells
             if highestN >= root
-                deltaO = deltaO1
+                dO = deltaO1
             end
         end
         # Calculate division rates
@@ -584,7 +584,7 @@ ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam,
         mutation_rate = effectivem * totalcells
         gamma_mutation_rate = effectivegammam*totalcells
 
-        total_rate = division_rate + celldeath_rate + deltaO + mutation_rate + gamma_mutation_rate
+        total_rate = division_rate + celldeath_rate + dO + mutation_rate + gamma_mutation_rate
 
         # Early termination check
         total_rate <= 0 && break
@@ -600,9 +600,9 @@ ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam,
             1
         elseif r < division_rate + celldeath_rate
             2
-        elseif r < division_rate + celldeath_rate + deltaO
+        elseif r < division_rate + celldeath_rate + dO
             3
-        elseif r < division_rate + celldeath_rate + deltaO + mutation_rate
+        elseif r < division_rate + celldeath_rate + dO + mutation_rate
             4
         else
             5

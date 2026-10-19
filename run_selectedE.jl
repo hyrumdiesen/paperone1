@@ -25,6 +25,14 @@ test = constructffvar2modmatrix(1)
 ffvar2_analytic_sim_nodemandgermm(test)
 anyssmnet_analytic_sim_nodemandgermm([3,0,0,0,0,0])
 
+fitnesses = zeros(100)
+Threads.@threads for i in 1:100
+    fitnesses[i] = anyssmnet_analytic_sim_nodemandgermm([30,0,0,0,0,0])
+end
+
+mean(fitnesses)
+minimum(fitnesses)
+
 NhitNstartoggle = 1
 
 ############environment 1
