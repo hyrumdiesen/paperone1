@@ -30,8 +30,8 @@ NhitNstartoggle = 1
 #first we filter our master dataframe just to baseline Nstar=12 and Nstar=25
 #then we just rerun that data with r that was optimized from previous runs without NhitNstar
 
-#folder_path = "/Volumes/cluster/selectedEdata/baseline"
-folder_path = "hemmahomeNAS/cluster/selectedEdata/baseline"
+folder_path = "/Volumes/cluster/selectedEdata/baseline"
+#folder_path = "hemmahomeNAS/cluster/selectedEdata/baseline"
 
 # 2. Get full paths for all CSV files in that folder
 files = filter(f -> endswith(f, ".csv"), readdir(folder_path, join=true))
