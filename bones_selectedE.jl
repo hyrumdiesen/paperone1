@@ -142,13 +142,13 @@ anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root)
     highestN = 1
     dO = deltaO1
     if NhitNstartoggle == 1
-        dO = 0.000000001
+        dO = 0.0
     end
     while time < MAX_TIME && totalcells > 0
         #little gizmo for supplemental data to check if time to reach Nstar matters
         if totalcells > highestN && NhitNstartoggle == 1
             highestN = totalcells
-            if highestN >= root
+            if highestN >= root || time > 2000
                 dO = deltaO1
             end
         end
@@ -379,13 +379,13 @@ ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, 
     highestN = 1
     dO = deltaO1
     if NhitNstartoggle == 1
-        dO = 0.000000001
+        dO = 0.0
     end
     while time < MAX_TIME && totalcells > 0
         #little gizmo for supplemental data to check if time to reach Nstar matters
         if totalcells > highestN && NhitNstartoggle == 1
             highestN = totalcells
-            if highestN >= root
+            if highestN >= root || time > 2000
                 dO = deltaO1
             end
         end
@@ -556,13 +556,13 @@ ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam,
     highestN = 1
     dO = deltaO1
     if NhitNstartoggle == 1
-        dO = 0.000000001
+        dO = 0.0
     end
     while time < MAX_TIME && totalcells > 0
         #little gizmo for supplemental data to check if time to reach Nstar matters
         if totalcells > highestN && NhitNstartoggle == 1
             highestN = totalcells
-            if highestN >= root
+            if highestN >= root || time > 2000
                 dO = deltaO1
             end
         end
@@ -850,11 +850,11 @@ general_bayesoptimize_ntimes_parallel = function(analytic_sim, modmatrixgenerato
         #reps = [objective(seed) for _ in 1:15]
         reps = zeros(15)
         Threads.@threads for i in 1:15
-            reps[i] = objective(exp(seed))
+            reps[i] = objective([seed])
         end
         nstd = std(reps) 
-        if nstd < 1e-4
-            nstd = 1e-4
+        if nstd < 1e-2
+            nstd = 1e-2
         end
 
         boxw = ub .- lb
@@ -931,7 +931,7 @@ general_bayesoptimize_ntimes_parallel = function(analytic_sim, modmatrixgenerato
     #log mean fitnesses ci
 
     boot2 = [mean(@inbounds exp.(fs[rand(1:n, n)])) for _ in 1:B]   # nonparametric bootstrap of the mean
-    sort!(boot)
+    sort!(boot2)
     ci2 = (mean(exp.(fs)), boot2[round(Int, 0.025B)], boot2[round(Int, 0.975B)])
     #mean fitnesses ci
 
