@@ -141,15 +141,15 @@ anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root)
     # Main simulation loop
     highestN = 1
     deltaO = deltaO1
+    if NhitNstartoggle == 1
+        deltaO = 0.0
+    end
     while time < MAX_TIME && totalcells > 0
-
         #little gizmo for supplemental data to check if time to reach Nstar matters
         if totalcells > highestN && NhitNstartoggle == 1
             highestN = totalcells
             if highestN >= root
                 deltaO = deltaO1
-            else
-                deltaO = 0.0
             end
         end
         # Calculate division rates
@@ -378,14 +378,15 @@ ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, 
     # Main simulation loop
     highestN = 1
     deltaO = deltaO1
+    if NhitNstartoggle == 1
+        deltaO = 0.0
+    end
     while time < MAX_TIME && totalcells > 0
-
+        #little gizmo for supplemental data to check if time to reach Nstar matters
         if totalcells > highestN && NhitNstartoggle == 1
             highestN = totalcells
             if highestN >= root
                 deltaO = deltaO1
-            else
-                deltaO = 0.0
             end
         end
         # Calculate division rates
@@ -554,17 +555,17 @@ ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam,
     # Main simulation loop
     highestN = 1
     deltaO = deltaO1
+    if NhitNstartoggle == 1
+        deltaO = 0.0
+    end
     while time < MAX_TIME && totalcells > 0
-
+        #little gizmo for supplemental data to check if time to reach Nstar matters
         if totalcells > highestN && NhitNstartoggle == 1
             highestN = totalcells
             if highestN >= root
                 deltaO = deltaO1
-            else
-                deltaO = 0.0
             end
         end
-
         # Calculate division rates
         @inbounds for i in 1:NUM_GENOTYPES
 
