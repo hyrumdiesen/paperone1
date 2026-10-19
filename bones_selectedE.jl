@@ -1247,27 +1247,27 @@ test4networks_nooptim = function(filename, csvfile)
         if df.network_type[row] == "ssm_avg"
             fs = zeros(nreplicates)
             hybridvect = zeros(6)
-            hybridvect[sizes_ssm_avg[size]] = 1
+            hybridvect[size] = 1
             Threads.@threads for i in 1:nreplicates
                 fs[i] = anyssmnet_analytic_sim_nodemandgermm(hybridvect; r = exp(df.optr[row]), m = m, deltaO = deltaO, mutmag = mutmag, root = root)
             end
         elseif df.network_type[row] == "ssm_min"
             fs = zeros(nreplicates)
             hybridvect = zeros(6)
-            hybridvect[1] = sizes_ssm_min[size]
+            hybridvect[1] = size
             Threads.@threads for i in 1:nreplicates
                 fs[i] = anyssmnet_analytic_sim_nodemandgermm(hybridvect; r = exp(df.optr[row]), m = m, deltaO = deltaO, mutmag = mutmag, root = root)
             end
         elseif df.network_type[row] == "ff_avg_var1"
             fs = zeros(nreplicates)
             Threads.@threads for i in 1:nreplicates
-                modmatrix = constructffmodmatrix(sizesffavgvar1[size]; r = exp(df.optr[row]))
+                modmatrix = constructffmodmatrix(size; r = exp(df.optr[row]))
                 fs[i] = ffavg_analytic_sim_nodemandgermm(modmatrix; m = m, deltaO = deltaO, mutmag = mutmag, root = root)
             end
         elseif df.network_type[row] == "ff_avg_var2"
             fs = zeros(nreplicates)
             Threads.@threads for i in 1:nreplicates
-                modmatrix = constructffvar2modmatrix(sizesffavgvar2[size]; r = exp(df.optr[row]))
+                modmatrix = constructffvar2modmatrix(size; r = exp(df.optr[row]))
                 fs[i] = ffvar2_analytic_sim_nodemandgermm(modmatrix; m = m, deltaO = deltaO, mutmag = mutmag, root = root)
             end
         end
