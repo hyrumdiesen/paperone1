@@ -30,14 +30,6 @@ NhitNstartoggle = 1
 #first we filter our master dataframe just to baseline Nstar=12 and Nstar=25
 #then we just rerun that data with r that was optimized from previous runs without NhitNstar
 
-folder_path = "/Volumes/cluster/selectedEdata/baseline"
-#folder_path = "hemmahomeNAS/cluster/selectedEdata/baseline"
-
-# 2. Get full paths for all CSV files in that folder
-files = filter(f -> endswith(f, ".csv"), readdir(folder_path, join=true))
-
-# 3. Read and combine them efficiently
-df_combined = reduce(vcat, CSV.read(f, DataFrame) for f in files)
-
-
+csvfile = "data/Nstar12and25_baseline.csv"
+df2 = DataFrame(CSV.File(csvfile))
 test4networks_nooptim("NhitNstar_Nstar12and25_baseline", df2)
