@@ -27,40 +27,16 @@ anyssmnet_analytic_sim_nodemandgermm([3,0,0,0,0,0])
 
 NhitNstartoggle = 1
 
-############environment 1
-nreplicates = 1000
-objreplicates = 80
-m = 0.01
-deltaO = 0.003
+#first we filter our master dataframe just to baseline Nstar=12 and Nstar=25
+#then we just rerun that data with r that was optimized from previous runs without NhitNstar
 
-root = 12
-test4networks("nondeath12_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+folder_path = "/Volumes/cluster/selectedEdata/baseline"
 
-root = 25
-test4networks("nondeath25_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+# 2. Get full paths for all CSV files in that folder
+files = filter(f -> endswith(f, ".csv"), readdir(folder_path, join=true))
 
-###############environment 2
-nreplicates = 500
-objreplicates = 40
-m = 0.003
-deltaO = 0.0001
-
-root = 12
-test4networks("nondeath12_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
-
-root = 25
-test4networks("nondeath25_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+# 3. Read and combine them efficiently
+df_combined = reduce(vcat, CSV.read(f, DataFrame) for f in files)
 
 
-
-############environment 3
-nreplicates = 250
-objreplicates = 20
-m = 0.00005
-deltaO = 0.0001
-
-root = 12
-test4networks("nondeath12_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
-
-root = 25
-test4networks("nondeath25_", ssmavgsizes, ssmminsizes, sizesffavgvar1, sizesffavgvar2; objreplicates = objreplicates, finalrep = nreplicates)
+test4networks_nooptim("NhitNstar_Nstar12and25_baseline", df2)

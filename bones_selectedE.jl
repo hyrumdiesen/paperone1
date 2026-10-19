@@ -30,7 +30,7 @@ FLOOR = 0.1
 Ninit = 1
 NhitNstartoggle = 0
 
-WofN = function(N)
+WofN = function(N; root = root)
     exp(-0.5 * ((N - root) / 2)^2)
 end
 
@@ -68,7 +68,7 @@ end
 
 #parsimonious creatures with simple step motif networks
 
-anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root), m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO1 = deltaO)
+anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root), m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO1 = deltaO, root = root)
 
     nummodules = trunc(Int, sum(hybridvect))
     modmatrix = constructmodmatrix(nummodules, r = r)
@@ -178,7 +178,7 @@ anyssmnet_analytic_sim_nodemandgermm = function(hybridvect; r = 0.1744*(12/root)
         # Sample time step
         dt = rand(exp_dist) / total_rate
         time += dt
-        fitness += WofN(totalcells)*dt
+        fitness += WofN(totalcells; root = root)*dt
         
         # Determine event type
         r = rand() * total_rate
@@ -327,7 +327,7 @@ ffnetworkmodules_nodem = function(N, ffmodmatrix, gammas)
     return EPS/(1+sum(T2s.*ffmodmatrix[end,:]))
 end
 
-ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO1 = deltaO)
+ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO1 = deltaO, root = root)
 
     modmatrix = deepcopy(modmatrix1)
     nummodules = size(modmatrix)[2]
@@ -415,7 +415,7 @@ ffavg_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, 
         # Sample time step
         dt = rand(exp_dist) / total_rate
         time += dt
-        fitness += WofN(totalcells)*dt
+        fitness += WofN(totalcells; root = root)*dt
         
         # Determine event type
         r = rand() * total_rate
@@ -506,7 +506,7 @@ ffvar2networkmodules_nodem = function(N, modmatrix, gammas)
     return lambda
 end
 
-ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO1 = deltaO)
+ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam, germlinem = germlinem, mutmag = mutmag, deltaO1 = deltaO, root = root)
 
     modmatrix = deepcopy(modmatrix1)
     nummodules = size(modmatrix)[1]
@@ -592,7 +592,7 @@ ffvar2_analytic_sim_nodemandgermm = function(modmatrix1; m = m, gammam = gammam,
         # Sample time step
         dt = rand(exp_dist) / total_rate
         time += dt
-        fitness += WofN(totalcells)*dt
+        fitness += WofN(totalcells; root = root)*dt
         
         # Determine event type
         r = rand() * total_rate
@@ -1226,89 +1226,79 @@ collect_hybrid_data = function(filenameprefix; objreplicates = objreplicates, fi
 
 end
 
-testffavgvar2network = function(filenameprefix, sizes_ff_avgvar2; objreplicates = objreplicates, finalrep = finalrep, testreplicates = 200, optimiterations = 100, optiminitialiterations = 30, ntimes = 2)
+#takes a csv file of already optimized 4 networks and retests fitnesses
+#mainly used for doing NhitNstar tests for supplemental data
+test4networks_nooptim = function(filename, csvfile)
 
-    if m == 0.01 || gammam == 0.01
-        E = 1
-    elseif m == 0.003 || gammam == 0.003
-        E = 2
-    elseif m == 0.00005 || gammam == 0.00005
-        E = 3
-    else
-        E = 0
+    #df = DataFrame(CSV.File(csvfile))
+    df = csvfile
+
+    allfs = Vector{Any}(undef, size(df)[1])
+
+    for row in 1:size(df)[1]
+        nreplicates = df.fitnessreplicates[row]
+        size = trunc(Int,df.nnodes[row]/2)
+
+        m = df.m[row]
+        deltaO = df.dO[row]
+        mutmag = df.mutmag[row]
+        root = df.Nstar[row]
+
+        if df.network_type[row] == "ssm_avg"
+            fs = zeros(nreplicates)
+            hybridvect = zeros(6)
+            hybridvect[sizes_ssm_avg[size]] = 1
+            Threads.@threads for i in 1:nreplicates
+                fs[i] = anyssmnet_analytic_sim_nodemandgermm(hybridvect; r = exp(df.optr[row]), m = m, deltaO = deltaO, mutmag = mutmag, root = root)
+            end
+        elseif df.network_type[row] == "ssm_min"
+            fs = zeros(nreplicates)
+            hybridvect = zeros(6)
+            hybridvect[1] = sizes_ssm_min[size]
+            Threads.@threads for i in 1:nreplicates
+                fs[i] = anyssmnet_analytic_sim_nodemandgermm(hybridvect; r = exp(df.optr[row]), m = m, deltaO = deltaO, mutmag = mutmag, root = root)
+            end
+        elseif df.network_type[row] == "ff_avg_var1"
+            fs = zeros(nreplicates)
+            Threads.@threads for i in 1:nreplicates
+                modmatrix = constructffmodmatrix(sizesffavgvar1[size]; r = exp(df.optr[row]))
+                fs[i] = ffavg_analytic_sim_nodemandgermm(modmatrix; m = m, deltaO = deltaO, mutmag = mutmag, root = root)
+            end
+        elseif df.network_type[row] == "ff_avg_var2"
+            fs = zeros(nreplicates)
+            Threads.@threads for i in 1:nreplicates
+                modmatrix = constructffvar2modmatrix(sizesffavgvar2[size]; r = exp(df.optr[row]))
+                fs[i] = ffvar2_analytic_sim_nodemandgermm(modmatrix; m = m, deltaO = deltaO, mutmag = mutmag, root = root)
+            end
+        end
+
+        allfs[row] = fs
+
+        #now we do the bootstrapping
+        B, n = 100_000, length(fs)
+        boot = [mean(@inbounds fs[rand(1:n, n)]) for _ in 1:B]   # nonparametric bootstrap of the mean
+        sort!(boot)
+        ci = (mean(fs), boot[round(Int, 0.025B)], boot[round(Int, 0.975B)])
+        #log mean fitnesses ci
+
+        boot2 = [mean(@inbounds exp.(fs[rand(1:n, n)])) for _ in 1:B]   # nonparametric bootstrap of the mean
+        sort!(boot2)
+        ci2 = (mean(exp.(fs)), boot2[round(Int, 0.025B)], boot2[round(Int, 0.975B)])
+        #mean fitnesses ci
+
+        #now write to the dataframe
+        df.meanlogW[row] = ci[1]
+        df.meanlogWupper[row] = ci[2]
+        df.meanlogWlower[row] = ci[3]
+
+        df.meanW[row] = ci2[1]
+        df.meanWupper[row] = ci2[2]
+        df.meanWlower[row] = ci2[3]
+
     end
 
-    delta = ""
-    if gammam > 0
-        delta *= "nodem_adjusted"
-    end
-    if germlinem > 0
-        delta *= "germlinem"
-    end
-    if mutmag == 0.1
-        delta *= "mutmag"
-    end
-    if root == 25
-        delta *= "Nstar"
-    end
-    if Ninit > 1
-        delta *= "Ninit"
-    end
-
-    if delta == ""
-        delta = "baseline"
-    end
-
-    seed = log(0.1744*(12/root))
-    radius = 1.0
-
-    filename = "/data/"*filenameprefix*string(delta) * "_E" * string(E) * "_m" * string(m) * "_mutmag" * string(mutmag) * "_Nstar" * string(root)
- 
-    #we should save data as a dataframe
-    masterdf = DataFrame()
-
-    seed = log(1116.16*(12/root))
-    #ff avg variant 2
-    ff_var2_data = Vector{Any}(undef, length(sizes_ff_avgvar2))
-    for i in 1:length(sizes_ff_avgvar2)
-
-        nedges = 2*sizes_ff_avgvar2[i]
-        nnodes = 2*sizes_ff_avgvar2[i]
-
-        data = general_bayesoptimize_ntimes_parallel(ffvar2_analytic_sim_nodemandgermm, constructffvar2modmatrix, sizes_ff_avgvar2[i], seed, radius; objreplicates = objreplicates, finalrep = finalrep, testreplicates = testreplicates, optimiterations = optimiterations, optiminitialiterations = optiminitialiterations, ntimes = ntimes)
-
-        #save data as individual file.
-
-        dfrow = DataFrame(
-            network_type = ["ff_avg_var2"],
-            delta = [delta],
-            E = [E],
-            nedges = [nedges],
-            nnodes = [nnodes],
-            Nstar = [root],
-            Ninit = [Ninit],
-            dO = [deltaO],
-            m = [m],
-            mutmag = [mutmag],
-            gammam = [gammam],
-            optr = [data[2][data[3]]],
-            germlinem = [germlinem],
-            objreplicates = [objreplicates],
-            fitnessreplicates = [finalrep],
-            meanlogW = [data[5][1]],
-            meanlogWupper = [data[5][3]],
-            meanlogWlower = [data[5][2]],
-            meanW = [data[6][1]],
-            meanWupper = [data[6][3]],
-            meanWlower = [data[6][2]] 
-        )
-
-        ff_var2_data[i] = data
-        masterdf = vcat(masterdf, dfrow)
-    end
-    @save filename*"_raw_ff_var2_"*".jld2" ff_var2_data
-    filename2 = filename*".csv"
-    CSV.write(filename2, masterdf)
+    @save "RAW_"*filename*".jld2" allfs
+    CSV.write(filename*".csv", df)
 
     #return masterdf
 end
