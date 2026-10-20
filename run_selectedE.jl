@@ -32,4 +32,4 @@ NhitNstartoggle = 1
 
 csvfile = "data/Nstar12and25_baseline.csv"
 df2 = DataFrame(CSV.File(csvfile))
-test4networks_nooptim("NhitNstar_Nstar12and25_baseline", df2)
+testallnetworks_nooptim("NhitNstar_Nstar12and25_baseline", df2)

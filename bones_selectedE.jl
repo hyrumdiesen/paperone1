@@ -1228,14 +1228,16 @@ end
 
 #takes a csv file of already optimized 4 networks and retests fitnesses
 #mainly used for doing NhitNstar tests for supplemental data
-test4networks_nooptim = function(filename, csvfile)
+testallnetworks_nooptim = function(filename, csvfile)
 
     #df = DataFrame(CSV.File(csvfile))
     df = csvfile
 
     allfs = Vector{Any}(undef, size(df)[1])
 
-    for row in 1:size(df)[1]
+    tracker = zeros(size(df)[1])
+
+    Threads.@threads for row in 1:size(df)[1]
         nreplicates = df.fitnessreplicates[row]
         size = trunc(Int,df.nnodes[row]/2)
 
@@ -1248,25 +1250,29 @@ test4networks_nooptim = function(filename, csvfile)
             fs = zeros(nreplicates)
             hybridvect = zeros(6)
             hybridvect[size] = 1
-            Threads.@threads for i in 1:nreplicates
+            #Threads.@threads for i in 1:nreplicates
+            for i in 1:nreplicates
                 fs[i] = anyssmnet_analytic_sim_nodemandgermm(hybridvect; r = exp(df.optr[row]), m = m, deltaO1 = deltaO, mutmag = mutmag, root = root)
             end
         elseif df.network_type[row] == "ssm_min"
             fs = zeros(nreplicates)
             hybridvect = zeros(6)
             hybridvect[1] = size
-            Threads.@threads for i in 1:nreplicates
+            #Threads.@threads for i in 1:nreplicates
+            for i in 1:nreplicates
                 fs[i] = anyssmnet_analytic_sim_nodemandgermm(hybridvect; r = exp(df.optr[row]), m = m, deltaO1 = deltaO, mutmag = mutmag, root = root)
             end
         elseif df.network_type[row] == "ff_avg_var1"
             fs = zeros(nreplicates)
-            Threads.@threads for i in 1:nreplicates
+            #Threads.@threads for i in 1:nreplicates
+            for i in 1:nreplicates
                 modmatrix = constructffmodmatrix(size; r = exp(df.optr[row]))
                 fs[i] = ffavg_analytic_sim_nodemandgermm(modmatrix; m = m, deltaO1 = deltaO, mutmag = mutmag, root = root)
             end
         elseif df.network_type[row] == "ff_avg_var2"
             fs = zeros(nreplicates)
-            Threads.@threads for i in 1:nreplicates
+            #Threads.@threads for i in 1:nreplicates
+            for i in 1:nreplicates
                 modmatrix = constructffvar2modmatrix(size; r = exp(df.optr[row]))
                 fs[i] = ffvar2_analytic_sim_nodemandgermm(modmatrix; m = m, deltaO1 = deltaO, mutmag = mutmag, root = root)
             end
@@ -1294,6 +1300,9 @@ test4networks_nooptim = function(filename, csvfile)
         df.meanW[row] = ci2[1]
         df.meanWupper[row] = ci2[2]
         df.meanWlower[row] = ci2[3]
+
+        tracker[row] = 1
+        println(sum(tracker)/(size(df)[1]))
 
     end
 
